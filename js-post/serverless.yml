@@ -1,0 +1,19 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: victor013001
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: aws-serverless-challenge
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: js-post
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: dev
+  region: us-east-1
+  profile: deploy-aws
+  environment:
+    TABLE_NAME: ${ssm:/aws/reference/secretsmanager/dynamo/table/name}
+
+functions:
+  api:
+    handler: handler.handler
