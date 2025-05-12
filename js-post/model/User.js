@@ -12,4 +12,8 @@ module.exports = class User {
             email: this.email
         };
     }
+
+    toJSONString() {
+        return JSON.stringify(this.toJSON());
+    }
 }

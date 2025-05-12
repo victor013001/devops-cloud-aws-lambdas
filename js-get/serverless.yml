@@ -17,3 +17,4 @@ provider:
 functions:
   api:
     handler: handler.handler
+    role: arn:aws:iam::842676005902:role/AWSChallengeLambdaRoleGetDynamo

@@ -5,6 +5,8 @@ const {
   PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
 
+const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs");
+
 const express = require("express");
 const serverless = require("serverless-http");
 const { v4: uuidv4 } = require('uuid');
@@ -15,6 +17,9 @@ const app = express();
 const TABLE_NAME = process.env.TABLE_NAME;
 const client = new DynamoDBClient();
 const docClient = DynamoDBDocumentClient.from(client);
+
+const sqsClient = new SQSClient();
+const queueUrl = process.env.QUEUE_URL;
 
 app.use(express.json());
 
@@ -36,13 +41,29 @@ app.post("/user", async (req, res) => {
 
   try {
     await docClient.send(new PutCommand(params));
+  } catch (error) {
+    console.error("Server error while creating user:", error);
+    return res.status(500).json({ error: "Could not create user" });
+  }
+
+  const commandInput = {
+    QueueUrl: queueUrl,
+    MessageBody: user.toJSONString()
+  }
+
+  try {
+    await sqsClient.send(new SendMessageCommand(commandInput));
     return res.status(201)
       .json({
         data: user,
       });
   } catch (error) {
-    console.error(TABLE_NAME);
-    res.status(500).json({ error: "Could not create user" });
+    console.error("Server error while sending message:", error)
+    return res.status(201)
+      .json({
+        data: user,
+        error: "User created but error sending message"
+      });
   }
 });
 

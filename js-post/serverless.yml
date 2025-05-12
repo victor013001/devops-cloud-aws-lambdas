@@ -13,7 +13,9 @@ provider:
   profile: deploy-aws
   environment:
     TABLE_NAME: ${ssm:/aws/reference/secretsmanager/dynamo/table/name}
+    QUEUE_URL: ${ssm:/aws/reference/secretsmanager/sqs/queue/url}
 
 functions:
   api:
     handler: handler.handler
+    role: arn:aws:iam::842676005902:role/AWSChallengeLambdaRolePostDynamo
