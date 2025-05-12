@@ -1,0 +1,260 @@
+Transform: AWS::Serverless-2016-10-31
+Description: CloudFormation for the AWS Challenge
+
+Resources:
+
+  RoleGetUser:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: RoleLambdaGetUser
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal: 
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: GetFromDynamoUserTable
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:GetItem
+                Resource: arn:aws:dynamodb:us-east-1:842676005902:table/aws-challenge-user
+
+  RolePostUser:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: RoleLambdaPostUser
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal: 
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: PostToDynamoUserTable
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:PutItem
+                Resource: arn:aws:dynamodb:us-east-1:842676005902:table/aws-challenge-user
+        - PolicyName: SendUserMessageToSQS
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: sqs:SendMessage
+                Resource: arn:aws:sqs:us-east-1:842676005902:CreateUserQueue
+
+  RolePutUser:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: RoleLambdaPutUser
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal: 
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: PutToDynamoUserTable
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:UpdateItem
+                Resource: arn:aws:dynamodb:us-east-1:842676005902:table/aws-challenge-user
+
+  RoleDeleteUser:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: RoleLambdaDeleteUser
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: sts:AssumeRole
+              Principal: 
+                Service: lambda.amazonaws.com
+        ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        Policies:
+          - PolicyName: DeleteFromDynamoUserTable
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action: dynamodb:DeleteItem
+                  Resource: arn:aws:dynamodb:us-east-1:842676005902:table/aws-challenge-user
+
+  RoleSendUserToEmail:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: RoleLambdaSendUserToEmail
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal: 
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+       - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: PublishToUserSNS
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: sns:Publish
+                Resource: arn:aws:sns:us-east-1:842676005902:SendEmail
+        - PolicyName: ReadUserMessageFromSQS
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 
+                  - sqs:DeleteMessage
+                  - sqs:ReceiveMessage
+                  - sqs:GetQueueAttributes
+                Resource: arn:aws:sqs:us-east-1:842676005902:CreateUserQueue
+
+  LambdaGetUser:
+    Type: AWS::Lambda::Function
+    Properties: 
+      FunctionName: js-get-api
+      Role: !GetAtt RoleGetUser.Arn
+      Handler: handler.handler
+      Runtime: nodejs20.x
+      MemorySize: 1024
+      Timeout: 6
+      Code:
+        S3Bucket: testvictor013001
+        S3Key: js-get.zip
+      Environment:
+        Variables:
+          TABLE_NAME: aws-challenge-user
+
+  LambdaPostUser:
+    Type: AWS::Lambda::Function
+    Properties: 
+      FunctionName: js-post-api
+      Role: !GetAtt RolePostUser.Arn
+      Handler: handler.handler
+      Runtime: nodejs20.x
+      MemorySize: 1024
+      Timeout: 6
+      Code:
+        S3Bucket: testvictor013001
+        S3Key: js-post.zip
+      Environment:
+        Variables:
+          TABLE_NAME: aws-challenge-user
+
+  LambdaPutUser:
+    Type: AWS::Lambda::Function
+    Properties: 
+      FunctionName: py-put-api
+      Role: !GetAtt RolePutUser.Arn
+      Handler: wsgi_handler.handler
+      Runtime: python3.12
+      MemorySize: 1024
+      Timeout: 6
+      Code:
+        S3Bucket: testvictor013001
+        S3Key: py-put.zip
+      Environment:
+        Variables:
+          TABLE_NAME: aws-challenge-user
+
+  LambdaDeleteUser:
+    Type: AWS::Lambda::Function
+    Properties: 
+      FunctionName: py-delete-api
+      Role: !GetAtt RoleDeleteUser.Arn
+      Handler: wsgi_handler.handler
+      Runtime: python3.12
+      MemorySize: 1024
+      Timeout: 6
+      Code:
+        S3Bucket: testvictor013001
+        S3Key: py-delete.zip
+      Environment:
+        Variables:
+          TABLE_NAME: aws-challenge-user
+
+  LambdaSendUserToEmail:
+    Type: AWS::Lambda::Function
+    Properties: 
+      FunctionName: send-email
+      Role: !GetAtt RoleSendUserToEmail.Arn
+      Handler: handler.sendEmail
+      Runtime: nodejs20.x
+      MemorySize: 1024
+      Timeout: 6
+      Code:
+        S3Bucket: testvictor013001
+        S3Key: send-email.zip
+
+  TriggerEventSourceMappingSQSCreateUserQueue:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      EventSourceArn: arn:aws:sqs:us-east-1:842676005902:CreateUserQueue
+      FunctionName: !GetAtt LambdaSendUserToEmail.arn
+      Enabled: true
+
+  ApiGateway:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: UserApi
+      ProtocolType: HTTP
+
+  ApiGatewayStage: 
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId:
+        Ref: !Ref ApiGateway
+      StageName: $default
+      AutoDeploy: true
+      DefaultRouteSettings:
+        DetailedMetricsEnabled: false
+
+  ApiGatewayGetUserRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: "GET /user/{uuid}"
+      Target: !Sub "integrations/${LambdaGetUser}"
+
+  ApiGatewayPostUserRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: "POST /user"
+      Target: !Sub "integrations/${LambdaPostUser}"
+
+  ApiGatewayPutUserRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: "PUT /user/{uuid}"
+      Target: !Sub "integrations/${LambdaPutUser}"
+
+  ApiGatewayDeleteUserRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiGateway
+      RouteKey: "DELETE /user/{uuid}"
+      Target: !Sub "integrations/${LambdaDeleteUser}"
