@@ -212,7 +212,7 @@ Resources:
     Properties:
       BatchSize: 10
       EventSourceArn: arn:aws:sqs:us-east-1:842676005902:CreateUserQueue
-      FunctionName: !GetAtt LambdaSendUserToEmail.arn
+      FunctionName: !GetAtt LambdaSendUserToEmail.Arn
       Enabled: true
 
   ApiGateway:
@@ -224,37 +224,120 @@ Resources:
   ApiGatewayStage: 
     Type: AWS::ApiGatewayV2::Stage
     Properties:
-      ApiId:
-        Ref: !Ref ApiGateway
+      ApiId: !Ref ApiGateway
       StageName: $default
       AutoDeploy: true
       DefaultRouteSettings:
         DetailedMetricsEnabled: false
 
-  ApiGatewayGetUserRoute:
+  ApiGatewayIntegrationGetUser:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGateway
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaGetUser.Arn}/invocations
+      PayloadFormatVersion: "2.0"
+      TimeoutInMillis: 30000
+
+  ApiGatewayRouteGetUser:
     Type: AWS::ApiGatewayV2::Route
     Properties:
       ApiId: !Ref ApiGateway
       RouteKey: "GET /user/{uuid}"
-      Target: !Sub "integrations/${LambdaGetUser}"
+      Target: !Join 
+        - "/"
+        - - "integrations"
+          - !Ref ApiGatewayIntegrationGetUser
+    DependsOn: ApiGatewayIntegrationGetUser
 
-  ApiGatewayPostUserRoute:
+  LambdaPermissionApiGatewayGetUser:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref LambdaGetUser
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/*
+
+  ApiGatewayIntegrationPostUser:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGateway
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaPostUser.Arn}/invocations
+      PayloadFormatVersion: "2.0"
+      TimeoutInMillis: 30000
+
+  ApiGatewayRoutePostUser:
     Type: AWS::ApiGatewayV2::Route
     Properties:
       ApiId: !Ref ApiGateway
       RouteKey: "POST /user"
-      Target: !Sub "integrations/${LambdaPostUser}"
+      Target: !Join 
+        - "/"
+        - - "integrations"
+          - !Ref ApiGatewayIntegrationPostUser
+    DependsOn: ApiGatewayIntegrationPostUser
 
-  ApiGatewayPutUserRoute:
+  LambdaPermissionApiGatewayPostUser:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref LambdaPostUser
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/*
+
+  ApiGatewayIntegrationPutUser:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGateway
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaPutUser.Arn}/invocations
+      PayloadFormatVersion: "2.0"
+      TimeoutInMillis: 30000
+
+  ApiGatewayRoutePutUser:
     Type: AWS::ApiGatewayV2::Route
     Properties:
       ApiId: !Ref ApiGateway
       RouteKey: "PUT /user/{uuid}"
-      Target: !Sub "integrations/${LambdaPutUser}"
+      Target: !Join 
+        - "/"
+        - - "integrations"
+          - !Ref ApiGatewayIntegrationPutUser
+    DependsOn: ApiGatewayIntegrationPutUser
 
-  ApiGatewayDeleteUserRoute:
+  LambdaPermissionApiGatewayPutUser:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref LambdaPutUser
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/*
+
+  ApiGatewayIntegrationDeleteUser:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiGateway
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaDeleteUser.Arn}/invocations
+      PayloadFormatVersion: "2.0"
+      TimeoutInMillis: 30000
+
+  ApiGatewayRouteDeleteUser:
     Type: AWS::ApiGatewayV2::Route
     Properties:
       ApiId: !Ref ApiGateway
       RouteKey: "DELETE /user/{uuid}"
-      Target: !Sub "integrations/${LambdaDeleteUser}"
+      Target: !Join 
+        - "/"
+        - - "integrations"
+          - !Ref ApiGatewayIntegrationDeleteUser
+    DependsOn: ApiGatewayIntegrationDeleteUser
+
+  LambdaPermissionApiGatewayDeleteUser:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref LambdaDeleteUser
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGateway}/*
