@@ -1,0 +1,282 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1746050252635
+  modified: 1746050252635
+collection:
+  - url: https://p5lznlihu2.execute-api.us-east-1.amazonaws.com/user
+    name: LAMBDA - POST
+    meta:
+      id: req_831ed51628634db1827226ca275c1f4c
+      created: 1746746112715
+      modified: 1747009807091
+      isPrivate: false
+      sortKey: -1746746112715
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "SQS User 3",
+          "email": "sqsuser3@example.com"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.0.2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: https://p5lznlihu2.execute-api.us-east-1.amazonaws.com/user/:uuid
+    name: LAMBDA - GET
+    meta:
+      id: req_a0c23ef2354d47408b2bac7efc9ebff4
+      created: 1746747035384
+      modified: 1747003035240
+      isPrivate: false
+      sortKey: -1746696054656.5
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.0.2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: uuid
+        value: bc189878-f9fc-4ff6-9d3b-d8e2d9ed452
+  - url: https://p5lznlihu2.execute-api.us-east-1.amazonaws.com/user/:uuid
+    name: LAMBDA - PUT
+    meta:
+      id: req_681303c5d64842148b191e973c8e7be2
+      created: 1746747046660
+      modified: 1746992078646
+      isPrivate: false
+      sortKey: -1746671025627.25
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "default"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_2a5d906d1ffe467f9512f232598a61ae
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: uuid
+        value: bc189878-f9fc-4ff6-9d3b-d8e2d9ed452
+  - url: https://p5lznlihu2.execute-api.us-east-1.amazonaws.com/user/:uuid
+    name: LAMBDA - DELETE
+    meta:
+      id: req_f84c68a9f4fb43528df915ffb3652a92
+      created: 1746747054122
+      modified: 1747010541510
+      isPrivate: false
+      sortKey: -1746658511112.625
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.0.2
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: uuid
+        value: ac189878-f9fc-4ff6-9d3b-dc8e2d9ed452
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1746050682186
+    modified: 1746646689671
+  cookies:
+    - key: SESSION
+      value: d440ccba-f3b0-403c-9b7b-10912ad2e880
+      domain: localhost
+      path: /aws-challenge/
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:09.180Z
+      lastAccessed: 2025-05-07T19:37:46.492Z
+      sameSite: lax
+      id: 3eba882f-0048-4343-98ba-cae5a52da4a5
+    - key: XSRF-TOKEN
+      value: eyJYU1JGLVRPS0VOIjoibUJFNHNmK1NJOXFERWpLeGdJRkhBUzFnMXBKbDd2ZHFHcnBOcnh4UjdTdlVOMGwzZFZRWHo0ZStCblVQYzVTL0xtajgwQk1MUFZBR1Jqclh1cGlHc3l0VVF5OGRvWDhxRDUxU3k0Yno4T2pCdHg1MFJKSWk2V052OFJ1VGFwWFJ3YTdnNFVOTVI3dGtnMjcwcTZhTmhIaHhLYkd3aUVMdXR3QjM1aW9JaVZVPSJ9.PNl5eI1j8E1aU2CvX%2Fw9oRFXDKlbVd5uXTzbCGdb4hY
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:09.180Z
+      lastAccessed: 2025-05-07T19:38:09.671Z
+      sameSite: strict
+      id: 1aefa6cc-2672-4906-bd58-484783f68186
+    - key: lang
+      value: en
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:09.180Z
+      lastAccessed: 2025-05-07T19:38:09.671Z
+      sameSite: lax
+      id: 332d33e9-d10b-409c-9d0e-026f5d13b55a
+    - key: page-data
+      value: eyJwYWdlLWRhdGEiOnsiY2hhbGxlbmdlUGFyYW1ldGVycyI6eyJzaWduSW4iOnsiaWRlbnRpdHlQcm92aWRlcnMiOnsiY29nbml0byI6eyJzaWduSW5BdHRyaWJ1dGVzIjpbInVzZXJuYW1lIiwiZW1haWwiXSwicmVxdWlyZVBhc3N3b3JkIjpmYWxzZX19fSwic2lnblVwIjp7ImlkZW50aXR5UHJvdmlkZXJzIjp7ImNvZ25pdG8iOnsic2lnbkluQXR0cmlidXRlcyI6WyJ1c2VybmFtZSIsImVtYWlsIl0sInJlcXVpcmVQYXNzd29yZCI6ZmFsc2V9fSwicmVxdWlyZWRBdHRyaWJ1dGVzIjpbImVtYWlsIiwibmlja25hbWUiXSwicGFzc3dvcmRQb2xpY3kiOnsibWluaW11bUxlbmd0aCI6OCwicmVxdWlyZUxvd2VyY2FzZSI6dHJ1ZSwicmVxdWlyZU51bWJlcnMiOnRydWUsInJlcXVpcmVTeW1ib2xzIjp0cnVlLCJyZXF1aXJlVXBwZXJjYXNlIjp0cnVlfX0sInJlcXVlc3RSZXNldFBhc3N3b3JkIjp7ImNvZ25pdG9JZGVudGl0eVByb3ZpZGVyIjp7InNpZ25JbkF0dHJpYnV0ZXMiOlsidXNlcm5hbWUiLCJlbWFpbCJdLCJyZXF1aXJlUGFzc3dvcmQiOmZhbHNlfX19LCJjbGllbnRJZCI6IjM0amFxMXN0aGZkNmo0cXN2cGQ4YmRoZmlzIn19.n8Pkye773Zdqr%2FFRZKcCmvlZ504i2upwCrzHI22MYY8
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:09.180Z
+      lastAccessed: 2025-05-07T19:38:09.671Z
+      sameSite: strict
+      id: 5b82bc59-48b7-4434-b99c-3be0f62027c4
+    - key: cognito
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:09.180Z
+      lastAccessed: 2025-05-06T23:51:09.180Z
+      id: 0dbfdfc9-7ab3-4f48-bf70-73956d9383c0
+    - key: post-auth
+      domain: localhost
+      path: /passkeys
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:09.180Z
+      lastAccessed: 2025-05-06T23:51:09.180Z
+      id: 8fefef79-3fa1-43eb-b9fc-54c9a2520b4a
+    - key: csrf-state
+      value: pJqVcSOjCsMLDtpEUJCs1yfotoVHNNmCvNuUo0pXiqk
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:32.599Z
+      lastAccessed: 2025-05-07T19:38:09.671Z
+      sameSite: none
+      id: 908d2f4f-6be7-45b3-b456-bc562800903a
+    - key: csrf-state-legacy
+      value: pJqVcSOjCsMLDtpEUJCs1yfotoVHNNmCvNuUo0pXiqk
+      domain: localhost
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-06T23:51:32.599Z
+      lastAccessed: 2025-05-07T19:38:09.671Z
+      id: 81d572c7-1d7b-4a40-a86a-8eeedbfcc211
+    - key: SESSION
+      value: 48634da5-d6cb-42d9-963c-0b733afb997b
+      domain: devopscloudawslb-507237496.us-east-2.elb.amazonaws.com
+      path: /aws-challenge/
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-07T00:19:32.886Z
+      lastAccessed: 2025-05-07T00:19:32.886Z
+      id: e92a19a1-b9ee-44d2-8612-cd256b0e78ef
+    - key: XSRF-TOKEN
+      value: eyJYU1JGLVRPS0VOIjoidFRiSzMvcGhVZURHeUFtZ2lmOE40L1h2T3E3R2JNS1BES1NYUW91MmVLUWc2MmF3Z25vaUg2ZXdKMklrbmNVVmVzY25GaGZzbS8zS0xqRFQ1NG56SHEvTkdxdFJ1ZDhBQUN3RkhQSmNMQmp4MGllaFVVNWVyS0dDRzRQcTBHeW4wcDZUZ1RtaVpxUEtCUUw1Rjl0aWxvYThVRDg3bjJQcHhUQmNhTFRYaWh3PSJ9.xdq9mDB5gWZGa6mP3Vh1sqffhOGyasOByMpGk4vTT%2BE
+      domain: devopscloudawslb-507237496.us-east-2.elb.amazonaws.com
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-07T00:19:32.887Z
+      lastAccessed: 2025-05-07T00:19:32.887Z
+      id: c7febce9-7e53-4050-86b2-1ec45f1ab97a
+    - key: lang
+      value: en
+      domain: devopscloudawslb-507237496.us-east-2.elb.amazonaws.com
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-07T00:19:32.887Z
+      lastAccessed: 2025-05-07T00:19:32.887Z
+      id: 6175aeb9-e028-4fd1-bc7f-c1f0298706ac
+    - key: page-data
+      domain: devopscloudawslb-507237496.us-east-2.elb.amazonaws.com
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-07T00:19:32.887Z
+      lastAccessed: 2025-05-07T00:19:32.887Z
+      id: bda29641-8a84-424f-b83b-3c33d2075770
+    - key: cognito
+      domain: devopscloudawslb-507237496.us-east-2.elb.amazonaws.com
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-07T00:19:32.887Z
+      lastAccessed: 2025-05-07T00:19:32.887Z
+      id: 348f8018-d9db-4eb2-9391-577fdfb97e3b
+    - key: post-auth
+      domain: devopscloudawslb-507237496.us-east-2.elb.amazonaws.com
+      path: /passkeys
+      secure: true
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-05-07T00:19:32.887Z
+      lastAccessed: 2025-05-07T00:19:32.887Z
+      id: d0e07a4d-baf7-4b00-82c8-b2d900960380
+    - key: AWSALBTG
+      value: vGrxRBsJrutElhmHE5AE1f0KFDVAETXNuuvWahhr7oZ+jGHtSV1zqE6LMlrzdLcrExMHgjIsNYvLs+Ls3RxP9HYd2MjtZc+JOI5aGMzd3LZZteKJRj4bY5DbWtnFQ2oY9xlfviHTErYeqdP3o+LNXVKxmsuSinglfvJD0SLE9viSaQPeiGg=
+      domain: 2cmygutn3i.execute-api.us-east-2.amazonaws.com
+      path: /
+      hostOnly: true
+      creation: 2025-05-07T18:36:23.201Z
+      lastAccessed: 2025-05-07T19:29:57.264Z
+      id: 06e57fff-7ccd-4e1b-a1fe-6eed9109c779
+    - key: AWSALBTGCORS
+      value: vGrxRBsJrutElhmHE5AE1f0KFDVAETXNuuvWahhr7oZ+jGHtSV1zqE6LMlrzdLcrExMHgjIsNYvLs+Ls3RxP9HYd2MjtZc+JOI5aGMzd3LZZteKJRj4bY5DbWtnFQ2oY9xlfviHTErYeqdP3o+LNXVKxmsuSinglfvJD0SLE9viSaQPeiGg=
+      domain: 2cmygutn3i.execute-api.us-east-2.amazonaws.com
+      path: /
+      secure: true
+      hostOnly: true
+      creation: 2025-05-07T18:36:23.202Z
+      lastAccessed: 2025-05-07T19:29:57.264Z
+      sameSite: none
+      id: d036454e-6a5f-49f7-b187-00cc4ad1220d
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1746050681901
+    modified: 1746577217688
+    isPrivate: false
